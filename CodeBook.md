@@ -18,4 +18,4 @@ Based on the review of the "README.md" file located under the data directory, it
 
   [1]: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
   [2]: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-  [3]: <Link to original readme.md> file from repo
+  [3]: https://github.com/nandatascientist/gettingandcleaningdata/blob/master/data/README1.txt

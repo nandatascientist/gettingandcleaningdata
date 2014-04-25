@@ -2,7 +2,7 @@
 # assume that the working directory is the local repo "gettingandcleaningdata"
 
 
-################### LOADING & MERGING DATA FROM FILES ###################
+################### 1. LOADING & MERGING DATA FROM FILES ###################
 
 # we will (A) load & prepare  test files, (B) load & prepare train files,
 #   (C) merge the two into a common dataset, and (D) name feature columns
@@ -57,11 +57,11 @@ datadf<-rbind(traindf,testdf) # 10299 (7352+2947) rows and 563 cols
 ## Part D
 
 #load feature names from the features.txt file into a dataframe 
-# called features. It will have col # and col name i.e. feature name
+# called features. It will have feature # and col name i.e. feature name
 features<-read.table("./data/features.txt") 
 
 
-# set the all the colnames into a char vector called dfnames
+# set  all  colnames into a character vector called dfnames
 dfnames<-c(as.character(features[,2]),"actIndex","subjectIndex")
 # since features[,2] is a factor, coercing to character 
 # to reference the value instead of its level. this will give us the 
@@ -76,7 +76,7 @@ rm(traindf)
 rm(testdf)
 # removing these heavy objects from R memmory since we wont need them further
 
-################### CREATING FIRST TIDY DATA SET ###################
+################### 2. CREATING FIRST TIDY DATA SET ###################
 
 # in this section we will create a tidy data set by (A) extracting 
 # mean & SD of base features and (B) adding descriprive names for activities
@@ -95,26 +95,47 @@ meanIndex<-grep("-mean()",featureNames, fixed=TRUE)
 stdIndex<-grep("-std()",featureNames, fixed=TRUE)
 # grep does pattern matching. fixed=TRUE looks for an exact match.
 
-tidyFeatureIndex<-c(meanIndex,stdIndex)
+tidyFeatureIndex<-c(meanIndex,stdIndex,562:563)
 # the integer vector above corresponds to all the cols in datadf that we want to 
 # extract into our tidy dataset since the features in datadf have been stored in 
 # same order in which they have been stored in features.txt (& features dataframe)
- 
+
+# note that tidyFeatureIndex will reference 66 features + 2 index cols
+
 ## Part B
 #load activity descriptions from the activity_labels.txt file into a dataframe 
 # called activities. It will have activity  # and activity  name
 activities<-read.table("./data/activity_labels.txt") 
 names(activities)<-c("actIndex","actDesc") # rename cols to enable merging.
 
-tidydf1<-merge(datadf,activities,by.x="actIndex",by.y="actIndex") 
+tidydf1<-merge(datadf[,tidyFeatureIndex],activities,by.x="actIndex",by.y="actIndex") 
 # merged activities & datadf to get tidydf1 which now meets the following requirements:
-# (a) combines test + train data (b) contains only the mean and SD measures 
-# and (c) contains descriptive activity labels
+# (a) combines test + train data (b) contains only the mean and SD measures [66 features]
+# + 3 additional cols for actIndex, actDesc and subjectIndex and (c) contains 
+# descriptive activity labels (actDesc)
 
 rm(datadf)
 # removing this  heavy object from R memory since we wont this  further
 
-################### CREATING SECOND TIDY DATA SET ###################
+################### 3. CREATING SECOND TIDY DATA SET ###################
 
-# Objective is to load just the data corresponding to features that have 
-# an explicit mean
+# Objective is get the average values of all the features in tidydf1 by
+# subject and by activity
+
+tmpList<-split(tidydf1[,1:68],list(tidydf1$subjectIndex,tidydf1$actIndex))
+# split the tidy data set (less the last description col) by both subject and activity
+
+tmpdf<-sapply(tmpList,colMeans)
+# tmpdf is a matrix with the actual variables in the rows and the combination of 
+# subject, activity as the columns. We need to transpose this to get the summary 
+# we need
+
+tidydf2<-merge(t(tmpdf),activities)
+# here we transposed the matrix from previous step and added back the description
+# from the activities df. The implied key here is actIndex
+
+#tidydf2 therefore represents the mean of all the features by subject and by activity
+
+rm(tmpList)
+rm(tmpdf)
+# removing all intermediate objects from session

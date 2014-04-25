@@ -41,7 +41,7 @@ traindf$actIndex<-trnlbl[,1] # added activity index to traindf
 trnsub<-read.table("./data/train/subject_train.txt") #7352 rows and 1 col
 # trnsub has a number from [1-30] corresponding to each of the 7352 rows that denote 
 # the subject (i.e. person) associated with the observation
-
+        
 traindf$subjectIndex<-trnsub[,1] # added subject index to testdf
 
 # at this point traindf has 7352 observations on 561 features in the first 561 cols. 

@@ -10,7 +10,7 @@ A listing of the repository components are provided below:
 - CodeBook.md: Code book associated with the analysis performed by run_analysis script
 - meansddata.txt: First output of the run_analysis script file
 - avgmeansddata_bysub_byact.txt: Second output of the run_analysis script file
-- data: a directory that contains all the raw data that the run_analysis script operates upon
+- data: a directory that contains most of the raw data that the run_analysis script operates upon. Some files were omitted due to github size restrictions
 
 Please refer to the [code book][1] for additional details around the data and associated analysis.
 

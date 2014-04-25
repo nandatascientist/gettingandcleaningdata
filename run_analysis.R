@@ -139,3 +139,7 @@ tidydf2<-merge(t(tmpdf),activities)
 rm(tmpList)
 rm(tmpdf)
 # removing all intermediate objects from session
+
+################### 4. CREATE OUTPUT FILES ###################
+write.table(tidydf1,file="meansddata.txt",sep=" ",row.names=FALSE)
+write.table(tidydf2,file="avgmeansddata_bysub_byact.txt",sep=" ",row.names=FALSE)

@@ -101,6 +101,8 @@ The working data set loaded in the previous step contains all available features
 ## Creating the Tidy Data set #2 (inside the script)
 The script computes the average of each of the 33 mean and 33 SD features (66 total) by subject and by activity and provides a summary dataframe object called tidydf2. This object contins same fields as the previous tidydf1.
 
+## Creating output files (inside the script)
+The tidydf1 data set is written into the text file called "meansddata.txt", and the tidydf2 data set is written into the text file called "avgmeansddata_bysub_byact.txt"
 
 
   [1]: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
